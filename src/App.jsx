@@ -1,7 +1,7 @@
 import './App.css'
 import { useState } from 'react'
 import TaskForm from './components/TaskForm'
-import Task from './components/task';
+import Task from './components/Task';
 import { initialTasks } from './tasks';
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
   ))
 
   const remainingTasks = tasks.filter(task => !task.isCompleted).length;
-  
+
   return (
     <>
       <h1>Daily Planner</h1>
