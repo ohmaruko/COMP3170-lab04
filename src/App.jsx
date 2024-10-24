@@ -7,6 +7,7 @@ import { initialTasks } from './tasks';
 function App() {
   const [tasks, setTasks] = useState(initialTasks);
   const [newTask, setNewTask] = useState('');
+  const [filter, setFilter] = useState('all');
   
   function handlesubmit(e) {
     e.preventDefault();
@@ -26,24 +27,38 @@ function App() {
     setTasks(updatedTasks);
   }
 
-  const taskLists = tasks.map(task => (
-    <Task 
-      key={task.title} 
-      title={task.title} 
-      isCompleted={task.isCompleted}
-      onRemove={handleRemove}
-      onCheck={handleCheckTask}
-      />
-  ))
+  const remainingTasksNum = tasks.filter(task => !task.isCompleted).length;
+  const completedTasksNum = tasks.filter(task => task.isCompleted).length;
+  function displayTasksNum() {
+    if (filter === 'completed') return <h2>You have {completedTasksNum} tasks completed</h2>
+    else if (filter === 'all' || filter ==='pending') return <h2>You have {remainingTasksNum} tasks remaining</h2>
+  }
 
-  const remainingTasks = tasks.filter(task => !task.isCompleted).length;
+  function filteredTasks() {
+    if (filter === 'all') return tasks;
+    if (filter === 'completed') return tasks.filter(task => task.isCompleted);
+    if (filter === 'pending') return tasks.filter(task => !task.isCompleted);
+  }
 
   return (
     <>
       <h1>Daily Planner</h1>
       <TaskForm newTask={newTask} setNewTask={setNewTask} handlesubmit={handlesubmit}/>
-      <h2>You have {remainingTasks} tasks remaining</h2>
-      {taskLists}
+      <div className='filterButtons'>
+        <button onClick={() => setFilter('all')}>All</button>
+        <button onClick={() => setFilter('completed')}>Completed</button>
+        <button onClick={() => setFilter('pending')}>Pending</button>
+      </div>
+      {displayTasksNum()}
+      {filteredTasks().map(task => (
+         <Task 
+          key={task.title} 
+          title={task.title} 
+          isCompleted={task.isCompleted}
+          onRemove={handleRemove}
+          onCheck={handleCheckTask}
+          />
+      ))}
     </>
   )
 }

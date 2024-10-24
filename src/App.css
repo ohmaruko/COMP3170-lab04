@@ -21,6 +21,19 @@
   background-color: rgb(138, 177, 228);
 }
 
+
+/* filter */
+.filterButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem;
+}
+.filterButtons button {
+  border: solid white 1px;
+}
+
 /* task list */
 .single-task-container {
   width: 700px;
